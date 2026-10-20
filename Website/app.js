@@ -43,9 +43,7 @@ const setTheme = () => {
   setTheme();
 
   window.matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", () => {
-      setTheme();
-    });
+    .addEventListener("change", setTheme);
 
   const packageGrid = document.getElementById('packageGrid');
 
