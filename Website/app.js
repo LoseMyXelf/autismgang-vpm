@@ -1,4 +1,4 @@
-import { baseLayerLuminance } from 'https://unpkg.com/@fluentui/web-components';
+
 const LISTING_URL = "{{ listingInfo.Url }}";
 
 const PACKAGES = {
@@ -33,10 +33,8 @@ const setTheme = () => {
     "(prefers-color-scheme: dark)"
   ).matches;
 
-  baseLayerLuminance.setValueFor(
-    document.documentElement,
-    isDarkTheme ? 0.1 : 1
-  );
+  document.documentElement.style.colorScheme =
+    isDarkTheme ? "dark" : "light";
 };
 
 (() => {
