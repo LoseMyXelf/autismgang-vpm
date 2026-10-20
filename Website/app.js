@@ -1,3 +1,4 @@
+import { baseLayerLuminance, StandardLuminance } from 'https://unpkg.com/@fluentui/web-components@2.6.1';
 
 const LISTING_URL = "{{ listingInfo.Url }}";
 
@@ -29,19 +30,20 @@ const PACKAGES = {
 };
 
 const setTheme = () => {
-  const isDarkTheme = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-
-  document.documentElement.style.colorScheme =
-    isDarkTheme ? "dark" : "light";
-};
+  const isDarkTheme = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (isDarkTheme()) {
+    baseLayerLuminance.setValueFor(document.documentElement, StandardLuminance.DarkMode);
+  } else {
+    baseLayerLuminance.setValueFor(document.documentElement, StandardLuminance.LightMode);
+  }
+}
 
 (() => {
   setTheme();
 
-  window.matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", setTheme);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    setTheme();
+  });
 
   const packageGrid = document.getElementById('packageGrid');
 
@@ -86,12 +88,8 @@ const setTheme = () => {
   });
 
   const vccAddRepoButton = document.getElementById('vccAddRepoButton');
+  vccAddRepoButton.addEventListener('click', () => window.location.assign(`vcc://vpm/addRepo?url=${encodeURIComponent(LISTING_URL)}`));
 
-vccAddRepoButton.addEventListener('click', () => {
-  const vccUrl = `vcc://vpm/addRepo?url=${encodeURIComponent(LISTING_URL)}`;
-
-  window.open(vccUrl, '_self');
-});
   const vccUrlFieldCopy = document.getElementById('vccUrlFieldCopy');
   vccUrlFieldCopy.addEventListener('click', () => {
     const vccUrlField = document.getElementById('vccUrlField');
