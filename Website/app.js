@@ -1,5 +1,4 @@
-import { baseLayerLuminance, StandardLuminance } from 'https://unpkg.com/@fluentui/web-components';
-
+import { baseLayerLuminance } from 'https://unpkg.com/@fluentui/web-components';
 const LISTING_URL = "{{ listingInfo.Url }}";
 
 const PACKAGES = {
@@ -30,20 +29,23 @@ const PACKAGES = {
 };
 
 const setTheme = () => {
-  const isDarkTheme = () => window.matchMedia("(prefers-color-scheme: dark)").matches;
-  if (isDarkTheme()) {
-    baseLayerLuminance.setValueFor(document.documentElement, StandardLuminance.DarkMode);
-  } else {
-    baseLayerLuminance.setValueFor(document.documentElement, StandardLuminance.LightMode);
-  }
-}
+  const isDarkTheme = window.matchMedia(
+    "(prefers-color-scheme: dark)"
+  ).matches;
+
+  baseLayerLuminance.setValueFor(
+    document.documentElement,
+    isDarkTheme ? 0.1 : 1
+  );
+};
 
 (() => {
   setTheme();
 
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    setTheme();
-  });
+  window.matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+      setTheme();
+    });
 
   const packageGrid = document.getElementById('packageGrid');
 
